@@ -1,0 +1,52 @@
+version: '3.1'
+
+services:
+
+  nightscout:
+    image: diadon/nightscout:latest
+    restart: always
+    depends_on:
+      - mongo
+    ports:
+      - 8080:1337
+    environment:
+      MONGO_CONNECTION: mongodb://mongo:27017/nightscout
+      API_SECRET: "qwertyuiop[]"
+      ALARM_HIGH: "on"
+      ALARM_LOW: "on"
+      ALARM_TIMEAGO_URGENT: "on"
+      ALARM_TIMEAGO_URGENT_MINS: 30
+      ALARM_TIMEAGO_WARN: "on"
+      ALARM_TIMEAGO_WARN_MINS: 15
+      ALARM_TYPES: "simple"
+      ALARM_URGENT_HIGH: "on"
+      ALARM_URGENT_LOW: "on"
+      CUSTOM_TITLE: "TestAPS"
+      DEVICESTATUS_ADVANCED: "true"
+      DISPLAY_UNITS: "mmol"
+      ENABLE: "careportal iob cob cage sage iage basal openaps pump maker bwp"
+      MONGO_COLLECTION: "entries"
+      NIGHT_MODE: "off"
+      OPENAPS_ENABLE_ALERTS: "true"
+      OPENAPS_FIELDS: "status-symbol status-label iob meal-assist rssi"
+      OPENAPS_RETRO_FIELDS: "status-symbol status-label iob meal-assist rssi"
+      OPENAPS_URGENT: 60
+      OPENAPS_WARN: 30
+      PUMP_ENABLE_ALERTS: "true"
+      PUMP_FIELDS: "battery reservoir clock status"
+      PUMP_RETRO_FIELDS: "battery reservoir clock status"
+      PUMP_URGENT_BATT_V: 1.0
+      PUMP_URGENT_CLOCK: 30
+      PUMP_URGENT_RES: 10
+      PUMP_WARN_BATT_V: 1.0
+      SHOW_FORECAST: "openaps"
+      SHOW_PLUGINS: "openaps pump iob sage cage careportal maker"
+      SHOW_RAWBG: "never"
+      THEME: "default"
+      TIME_FORMAT: 24
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: "nightscout"
